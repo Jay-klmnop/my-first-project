@@ -1,0 +1,109 @@
+/* === General Styles === */
+h1 {
+  text-align: center;
+  color: #333;
+  font-family: "Press Start 2P", system-ui;
+  margin: 40px;
+}
+
+body {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* === Character Room === */
+#character-room {
+  position: relative;
+  height: 200px;
+  width: 250px;
+  margin: 20px auto;
+}
+
+#character-room img {
+  position: absolute;
+  image-rendering: pixelated;
+  transform: scale(3);
+}
+
+#character {
+  bottom: 32px;
+  left: 100px;
+  z-index: 10;
+}
+
+#beanbag {
+  bottom: 30px;
+  left: 107px;
+  z-index: 5;
+}
+
+/* === To-Do Controls & List === */
+.todo-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px 0;
+}
+
+#todoInput {
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.list-container {
+  width: 80%;
+  max-width: 500px;
+  min-height: 300px;
+  margin: 20px auto;
+  padding: 9px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: transparent;
+  border-image-source: url(assets/border/border_purple.png);
+  border-image-slice: 3;
+  border-image-repeat: repeat;
+  image-rendering: pixelated;
+}
+
+#todoList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#todoList li {
+  display: flex;
+  align-items: flex-start;
+  margin: 10px auto;
+}
+
+#todoList li input[type="checkbox"] {
+  margin-right: 10px;
+  margin-top: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+/* === Stats & Buttons === */
+.todo-stats {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px;
+  margin-left: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #b2a7fa;
+  color: white;
+  cursor: pointer;
+}
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My To-Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>My To-Do List</h1>
+    <div id="character-room">
+
+    </div>
+    <div class="todo-controls">
+        <input type="text" id="todoInput" placeholder="Add a new task...">
+        <button id="addButton" class="btn">Add</button>
+    </div>
+    <div class="list-container">
+        <ul id="todoList">
+            <!-- To-Do items will be added here dynamically -->
+        </ul>
+    </div>
+    <div class="todo-stats">
+        <button id="hideButton" class="btn">Hide Completed</button>
+        <button id="showButton" class="btn">Show Completed</button>
+        <br>
+        <span id="completedCount">Completed: 0</span>
+        <span id="totalCount">Total: 0</span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

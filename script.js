@@ -65,27 +65,24 @@ function updateCounter() {
 const input = document.querySelector('#todoInput');
 const addButton = document.querySelector('#addButton');
 const list = document.querySelector('#todoList');
-const clearButton = document.querySelector('#clearButton');
-const showCompletedButton = document.querySelector('#showCompletedButton');
+const hideButton = document.querySelector('#hideButton');
+const showButton = document.querySelector('#showButton');
 
 addButton.addEventListener('click', () => {
     const todoText = input.value.trim();
     if (todoText) {
         const listItem = document.createElement('li');
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
         const textSpan = document.createElement('span');
-        textSpan.textContent = ' ' + todoText;
-        checkbox.addEventListener('change', () => {
-            textSpan.classList.toggle('completed');
+        textSpan.textContent = todoText;
+        listItem.appendChild(textSpan);
+        listItem.addEventListener('click', () => {
+            listItem.classList.toggle('completed');
             updateCounter();
         });
-        listItem.appendChild(checkbox);
-        listItem.appendChild(textSpan);
+
         list.appendChild(listItem);
         updateCounter();
         input.value = '';
-
     } else {
         alert('Please enter a todo item.');
     }
@@ -98,18 +95,16 @@ input.addEventListener('keydown', (event) => {
 });
 
 hideButton.addEventListener('click', () => {
-    const items = list.querySelectorAll('li');
-    items.forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        if (checkbox && checkbox.checked) {
-            item.classList.add('hidden');
+    const completedItems = list.querySelectorAll('.completed');
+    completedItems.forEach(item => {
+       item.style.display = 'none';
         }
-    });
+    );
 });
 
 showButton.addEventListener('click', () => {
-    const completedItems = list.querySelectorAll('.hidden');
-    completedItems.forEach(item => {
-        item.classList.toggle('hidden');
+    const allItems = list.querySelectorAll('li');
+    allItems.forEach(item => {
+        item.style.display = '';
     });
 });

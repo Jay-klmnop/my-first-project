@@ -7,7 +7,7 @@ h1 {
 }
 
 body {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Press Start 2P", system-ui;
 }
 
 /* === Character Room === */
@@ -41,54 +41,87 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px 0;
+  margin: 20px auto 0;
+  gap: 10px;
+  width: 80%;
+  max-width: 500px;
+  box-sizing: border-box;
+  padding: 12px 1px;
 }
 
 #todoInput {
-  width: 200px;
+  flex-grow: 1;
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 0;
+  border-width: 4px;
+  border-style: solid;
+  border-color: transparent;
+  border-image-source: url(assets/border/border_grey_16px.png);
+  border-image-slice: 4;
+  border-image-repeat: repeat;
+  image-rendering: pixelated;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#todoInput:focus {
+  outline: none;
+  border-image-source: url(assets/border/border_black_16px.png);
 }
 
 .list-container {
   width: 80%;
   max-width: 500px;
   min-height: 300px;
-  margin: 20px auto;
-  padding: 9px;
-  border-width: 3px;
+  margin: 5px auto 20px;
+  padding: 12px;
+  box-sizing: border-box;
+  border-width: 4px;
   border-style: solid;
   border-color: transparent;
-  border-image-source: url(assets/border/border_purple.png);
-  border-image-slice: 3;
+  border-image-source: url(assets/border/border_purple_16px.png);
+  border-image-slice: 4;
   border-image-repeat: repeat;
   image-rendering: pixelated;
 }
 
 #todoList {
-  list-style-type: none;
-  padding-left: 0;
+  list-style: none;
+  padding: 15px;
+  margin: 0;
 }
 
 #todoList li {
+  padding: 10px 15px;
+  cursor: pointer;
   display: flex;
   align-items: flex-start;
-  margin: 10px auto;
 }
 
-#todoList li input[type="checkbox"] {
+#todoList li::before {
+  content: '☐';
+  font-size: 16px;
   margin-right: 10px;
-  margin-top: 4px;
+  color: #ccc;
 }
 
-.hidden {
-  display: none;
+#todoList li span {
+  flex-grow: 1;
+  min-width: 0;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 16px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
 }
 
-.completed {
+#todoList li.completed span {
   text-decoration: line-through;
   color: gray;
+}
+
+#todoList li.completed::before {
+  content: '☑';
+  font-size: 16px;
 }
 
 /* === Stats & Buttons === */
@@ -97,13 +130,39 @@ body {
   margin-top: 20px;
 }
 
-.btn {
-  padding: 10px;
-  margin-left: 5px;
-  border-radius: 5px;
+.pixel-btn {
+  appearance: none;
   border: none;
+  padding: 10px 20px;
   background-color: #b2a7fa;
-  color: white;
+  font-family: "Press Start 2P", system-ui;
   cursor: pointer;
+  color: #333;
+  text-align: center;
+  border-width: 4px;
+  border-style: solid;
+  border-color: transparent;
+  border-image-slice: 4;
+  border-image-repeat: repeat;
+  image-rendering: pixelated;
+  border-image-source: url(assets/button/button_purple_v3.png);
 }
 
+.pixel-btn:hover {
+  border-image-source: url(assets/button/button_purple_h_v3.png);
+  color: #474747;
+}
+
+.pixel-btn:active {
+  border-image-source: url(assets/button/button_purple_a_v3.png);
+  color: #141414;
+  position: relative;
+  top: 2px;
+}
+
+.count {
+  font-size: 16px;
+  color: #333;
+  display: inline-block;
+  margin-top: 15px;
+}

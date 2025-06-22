@@ -52,6 +52,37 @@ function displayItem(itemName) {
 displayItem('character');
 displayItem('beanbag');
 
+let rewardIndex = 0;
+const rewardList = [
+    'crown',
+    'heart',
+    'star',
+    'mushroom',
+    'pixieLight',
+    'sunglasses',
+];
+
+function checkAndGiveReward() {
+    const completedCount = list.querySelectorAll('li.completed').length;
+    if (completedCount > 0 && completedCount % 3 === 0) {
+        if (rewardIndex < rewardList.length) {
+            const itemToGive = rewardList[rewardIndex];
+            if (!document.querySelector(`#${itemToGive}`)) {                
+                displayItem(itemToGive);
+                alert(`Congratulations! You've earned a ${a_library[itemToGive].name}! Great job!`);
+                rewardIndex++;
+            } else {
+                alert(`You already have the ${a_library[itemToGive].name}. Keep going!`);
+            }
+        } else {
+            alert('All rewards have already been given.');
+        }
+    } else {
+        alert('Condition not met. (Not a multiple of 3)');
+    }
+    console.log('--- Reward check end! ---');
+}
+
 const completedCountSpan = document.querySelector('#completedCount');
 const totalCountSpan = document.querySelector('#totalCount');
 
@@ -68,7 +99,9 @@ const list = document.querySelector('#todoList');
 const hideButton = document.querySelector('#hideButton');
 const showButton = document.querySelector('#showButton');
 
-addButton.addEventListener('click', () => {
+const form = document.querySelector('.todo-controls');
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
     const todoText = input.value.trim();
     if (todoText) {
         const listItem = document.createElement('li');
@@ -78,6 +111,9 @@ addButton.addEventListener('click', () => {
         listItem.addEventListener('click', () => {
             listItem.classList.toggle('completed');
             updateCounter();
+            if (listItem.classList.contains('completed')) {
+                checkAndGiveReward();
+            }
         });
 
         list.appendChild(listItem);

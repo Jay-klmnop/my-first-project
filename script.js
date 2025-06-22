@@ -88,12 +88,6 @@ addButton.addEventListener('click', () => {
     }
 });
 
-input.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        addButton.click();
-    }
-});
-
 hideButton.addEventListener('click', () => {
     const completedItems = list.querySelectorAll('.completed');
     completedItems.forEach(item => {

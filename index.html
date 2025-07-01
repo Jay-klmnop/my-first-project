@@ -10,10 +10,15 @@
 </head>
 
 <body>
-    <main>
+    <div id="naming-screen" class="active">
+        <h2>Name your new friend:</h2>
+        <input type="text" id="name-input" placeholder="Coco, Buttercup, Daisy...">
+        <button id="start-button" class="pixel-btn">Start</button>
+    </div>
+    <main style="display: none;">
         <h1>My To-Do List</h1>
         <div id="character-room">
-            <img id="character" class="character-item" src="assets/character/cat_purple_l_f.gif" alt="Cat">
+            <span id="room-owner-name"></span>
         </div>
         <form class="todo-controls">
             <input type="text" id="todoInput" placeholder="Add a new task...">

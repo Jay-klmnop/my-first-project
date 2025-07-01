@@ -1,116 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. 라이브러리 및 전역 변수 ---
-    const a_library = {
-        cat: { name: 'Cat', path: 'assets/p_lofi/cat_purple_oiia.gif', nativeSize: 32 },
-        desk_cat: { name: 'Desk Cat', path: 'assets/p_lofi/cat_purple_l.gif' },
-        final_cat: { name: 'Final Cat', path: 'assets/p_lofi/cat_final.gif' },
-        background: { name: 'Background', path: 'assets/p_lofi/background.png' },
-        window: { name: 'Sunset Window', path: 'assets/p_lofi/window_sunset.png' },
-        curtain: { name: 'Curtain', path: 'assets/p_lofi/curtain_purple_l.gif' },
-        turntable: { name: 'Turntable', path: 'assets/p_lofi/turntable.png' },
-        plants: { name: 'Potted Plants', path: 'assets/p_lofi/potted_plants.png' },
-        coffee_mug: { name: 'Coffee Mug', path: 'assets/p_lofi/coffee_cup.gif' },
-        mp3: { name: 'MP3', path: 'assets/p_lofi/mp3.png' },
-    };
-    let todos = [];
-    const rewardList = ['background', 'window', 'curtain', 'turntable', 'plants', 'coffee_mug', 'mp3'];
-    let rewardIndex = 0;
-
-    // --- 2. HTML 요소 선택 ---
-    const input = document.querySelector('#todoInput');
+    const namingScreen = document.querySelector('#naming-screen');
+    const nameInput = document.querySelector('#name-input');
+    const startButton = document.querySelector('#start-button');
+    const mainApp = document.querySelector('main');
+    const roomOwnerName = document.querySelector('#room-owner-name');
+    const todoInput = document.querySelector('#todoInput');
     const addButton = document.querySelector('#addButton');
-    const list = document.querySelector('#todoList');
+    const todoList = document.querySelector('#todoList');
     const hideButton = document.querySelector('#hideButton');
     const showButton = document.querySelector('#showButton');
     const completedCountSpan = document.querySelector('#completedCount');
     const totalCountSpan = document.querySelector('#totalCount');
     const characterRoom = document.querySelector('#character-room');
-    const mainElement = document.querySelector('main');
 
-    if (!characterRoom || !mainElement) {
-        console.error("CRITICAL ERROR: 필수 요소를 찾을 수 없습니다.");
-        return;
-    }
-
-    function displayItem(itemName) {
-        const itemData = a_library[itemName];
-        if (!itemData) return;
-
-        const imgElement = document.createElement('img');
-        imgElement.id = itemName;
-        imgElement.src = itemData.path;
-        imgElement.alt = itemData.name;
-
-        if (rewardList.includes(itemName)) {
-            imgElement.classList.add('reward-item');
-            if (itemName === 'heart' || itemName === 'star') {
-                imgElement.classList.add('float');
+    const a_library = {
+        cat: {
+            name: 'Cat',
+            states: {
+                spinning: 'assets/lofi/cat_purple_oiia.gif',
+                sitting: 'assets/lofi/cat_purple_l.gif',
+                dancing: 'assets/lofi/cat_final.gif'
             }
-        } else {
-            imgElement.classList.add('character-item');
-        }
-        characterRoom.appendChild(imgElement);
-    }
+        },
+        background: { name: 'Background', path: 'assets/lofi/background.png' },
+        window: { name: 'Sunset Window', path: 'assets/lofi/window_half.png' },
+        curtain: { name: 'Curtain', path: 'assets/lofi/curtain.gif' },
+        computer: { name: 'Computer', path: 'assets/lofi/com_con.gif' },
+        books: { name: 'A Pile of Books', path: 'assets/lofi/books-1.png' },
+        coffee_mug: { name: 'Coffee Mug', path: 'assets/lofi/coffee_cup_2.gif' },
+        mp3: { name: 'MP3 Player' },
+    };
 
-    function updateCounter() {
-        const totalItems = list.querySelectorAll('li').length;
-        const completedItems = list.querySelectorAll('.completed').length;
-        totalCountSpan.textContent = `Total: ${totalItems}`;
-        completedCountSpan.textContent = `Completed: ${completedItems}`;
-    }
-
-    function checkAndGiveReward() {
-        const completedCount = list.querySelectorAll('li.completed').length;
-        if (completedCount > 0 && completedCount % 3 === 0) {
-            if (rewardIndex < rewardList.length) {
-                const itemToGive = rewardList[rewardIndex];
-                if (!document.querySelector(`#${itemToGive}`)) {
-                    displayItem(itemToGive);
-                    alert(`Congratulations! You've earned a ${a_library[itemToGive].name}! Great job!`);
-                    rewardIndex++;
-                }
-            }
-        }
-    }
-
-    function addTodoItem() {
-        const todoText = input.value.trim();
-        if (todoText) {
-            const listItem = document.createElement('li');
-            const textSpan = document.createElement('span');
-            textSpan.textContent = todoText;
-            listItem.appendChild(textSpan);
-            listItem.addEventListener('click', () => {
-                listItem.classList.toggle('completed');
-                updateCounter();
-                if (listItem.classList.contains('completed')) {
-                    checkAndGiveReward();
-                }
-            });
-            list.appendChild(listItem);
-            updateCounter();
-            input.value = '';
-        } else {
-            alert('Please enter a todo item.');
-        }
-    }
+    let todos = [];
+    const rewardList = ['background', 'window', 'curtain', 'computer', 'books', 'coffee_mug', 'mp3'];
+    let rewardIndex = 0;
+    let lastRewardCount = 0;
+    let hideCompleted = false;
 
     function saveTodos() {
-        localStorage.setItem('todo-app-data', JSON.stringify(todos));
+        localStorage.setItem('my-todos', JSON.stringify(todos));
     }
 
     function loadTodos() {
-        const savedData = localStorage.getItem('todo-app-data');
+        const savedData = localStorage.getItem('my-todos');
         if (savedData) {
             todos = JSON.parse(savedData);
         }
     }
 
-    function render() {
-        const list = document.querySelector('#todoList');
-        list.innerHTML = '';
-        todos.forEach((todo, index) => {
+    function renderTodos() {
+        todoList.innerHTML = '';
+        todos.sort((a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1);
+        const todosToRender = todos.filter(todo => !(hideCompleted && todo.completed));
+        todosToRender.forEach((todo, index) => {
             const listItem = document.createElement('li');
             const textSpan = document.createElement('span');
             textSpan.textContent = todo.text;
@@ -118,66 +61,155 @@ document.addEventListener('DOMContentLoaded', () => {
             if (todo.completed) {
                 listItem.classList.add('completed');
             }
-            listItem.dataset.index = index;
+            const originalIndex = todos.findIndex(t => t === todo);
+            listItem.dataset.index = originalIndex;
             listItem.addEventListener('click', toggleTodo);
-            list.appendChild(listItem);
+            todoList.appendChild(listItem);
         });
         updateCounter();
         checkAndGiveReward();
     }
 
-    function addTodo(text) {
+    function displayItem(itemName) {
+        const itemData = a_library[itemName];
+        if (!itemData) return;
+        const imgElement = document.createElement('img');
+        imgElement.id = itemName;
+        imgElement.alt = itemData.name;
+
+        if (itemName === 'background') {
+            const itemData = a_library[itemName];
+            characterRoom.style.backgroundImage = `url(${itemData.path})`;
+            return;
+        }
+
+        if (itemName === 'cat') {
+            imgElement.src = a_library.cat.states.spinning;
+        } else {
+            imgElement.src = itemData.path;
+        }
+
+        if (itemName === 'cat') {
+            imgElement.classList.add('character-item');
+        } else {
+            imgElement.classList.add('reward-item');
+        }
+        characterRoom.appendChild(imgElement);
+    }
+
+    function addTodo() {
+        const text = todoInput.value.trim();
         if (text) {
             todos.push({ text: text, completed: false });
-            render();
             saveTodos();
+            renderTodos();
+            todoInput.value = '';
+        } else {
+            alert('Please enter a to-do.');
         }
     }
 
     function toggleTodo(event) {
-        const index = event.target.dataset.index;
-        todos[index].completed = !todos[index].completed;
-        render();
-        saveTodos();
+        const index = event.currentTarget.dataset.index;
+        if (todos[index]) {
+            todos[index].completed = !todos[index].completed;
+            saveTodos();
+            renderTodos();
+        }
     }
 
-    addButton.addEventListener('click', () => {
-        const todoText = input.value.trim();
-        addTodo(todoText);
-        input.value = '';
-    });
+    function updateCounter() {
+        const totalItems = todos.length;
+        const completedItems = todos.filter(todo => todo.completed).length;
+        totalCountSpan.textContent = `Total: ${totalItems}`;
+        completedCountSpan.textContent = `Completed: ${completedItems}`;
+    }
 
-    input.addEventListener('keydown', (event) => {
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            notification.addEventListener('transitionend', () => notification.remove());
+        }, 2500);
+    }
+
+    function checkAndGiveReward() {
+        const completedCount = todos.filter(todo => todo.completed).length;
+        if (completedCount > 0 && completedCount % 5 === 0) {
+            if (rewardIndex < rewardList.length) {
+                const itemToGive = rewardList[rewardIndex];
+                if (!document.querySelector(`#${itemToGive}`)) {
+                    if (itemToGive === 'mp3') {
+                        const catImage = document.querySelector('#cat');
+                        if (catImage) {
+                            catImage.src = a_library.cat.states.dancing;
+                            catImage.classList.add('is-dancing');
+                        }
+                        showNotification("Congratulations! You've completed the room! Look at them go!");
+                    } else {
+                        displayItem(itemToGive);
+                        showNotification(`You've earned a ${a_library[itemToGive].name}! Great job!`);
+                    }
+                    rewardIndex++;
+                    lastRewardCount = completedCount;
+                    const catImage = document.querySelector('#cat');
+                    if (catImage && itemToGive === 'background') {
+                        catImage.src = a_library.cat.states.sitting;
+                    }
+                }
+            }
+        }
+    }
+
+    function startApp(catName) {
+        roomOwnerName.textContent = `@${catName}'s Room`;
+        namingScreen.style.display = 'none';
+        mainApp.style.display = 'block';
+        addButton.addEventListener('click', addTodo);
+        todoInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addTodo();
+            }
+        });
+        hideButton.addEventListener('click', () => {
+            hideCompleted = true;
+            renderTodos();
+        });
+        showButton.addEventListener('click', () => {
+            hideCompleted = false;
+            renderTodos();
+        });
+
+        displayItem('cat');
+        loadTodos();
+        renderTodos();
+    }
+
+    const savedCatName = localStorage.getItem('catName');
+    if (savedCatName) {
+        startApp(savedCatName);
+    } else {
+        function handleNameSubmit() {
+            const catName = nameInput.value.trim();
+            if (catName) {
+                localStorage.setItem('catName', catName);
+                startApp(catName);
+            } else {
+                alert("Please give your friend a name!");
+            }
+        }
+    }
+
+    startButton.addEventListener('click', handleNameSubmit);
+    nameInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            const todoText = input.value.trim();
-            addTodo(todoText);
-            input.value = '';
+            handleNameSubmit();
         }
-    });
-
-    hideButton.addEventListener('click', () => {
-        const completedItems = list.querySelectorAll('.completed');
-        completedItems.forEach(item => { item.style.display = 'none'; });
-    });
-
-    showButton.addEventListener('click', () => {
-        const allItems = list.querySelectorAll('li');
-        allItems.forEach(item => { item.style.display = ''; });
-    });
-
-    function init() {
-        const savedData = localStorage.getItem('my-todos');
-        if (savedData) {
-            todos = JSON.parse(savedData);
-        }
-        render();
-    }
-
-    init();
-
-    displayItem('character');
-    updateCounter();
-    loadTodos();
-    render();
+    })
 });

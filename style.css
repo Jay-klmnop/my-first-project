@@ -79,8 +79,8 @@ h1 {
   --window-width: 216px;
   --curtain-width: 216px;
   --computer-width: 140px;
-  --books-width: 80px;
-  --coffee_mug-width: 48px;
+  --coffee_mug-width: 108px;
+  --memo-width: 72px;
   --cat-dancing-height: 128px;
 
   --transition-speed: 0.3s;
@@ -92,8 +92,8 @@ h1 {
     --window-width: 288px;
     --curtain-width: 288px;
     --computer-width: 184px;
-    --books-width: 108px;
-    --coffee_mug-width: 64px;
+    --coffee_mug-width: 124px;
+    --memo-width: 100px;
     --cat-dancing-height: 160px;
   }
 
@@ -136,33 +136,32 @@ h1 {
 #computer {
   width: var(--computer-width);
   bottom: 21%;
-  left: 24%;
-  z-index: 20;
-  transform: translateX(-50%);
-}
-
-#books {
-  width: var(--books-width);
-  bottom: 28%;
-  right: -7%;
+  left: 20%;
   z-index: 25;
   transform: translateX(-50%);
 }
 
 #coffee_mug {
   width: var(--coffee_mug-width);
-  bottom: 33%;
-  right: 30%;
+  bottom: 20%;
+  right: -2%;
   z-index: 30;
+}
+
+#memo {
+  width: var(--memo-width);
+  top: -1%;
+  left: 18%;
+  z-index: 20;
   transform: translateX(-50%);
 }
 
 #cat.is-dancing {
-  width: calc(var(--cat-dancing-height)*2);
-  height: var(--cat-dancing-height);
-  bottom: -5%;
+  width: calc(var(--cat-dancing-height)*1.5);
+  height: calc(var(--cat-dancing-height)*0.75);
+  bottom: 6%;
   z-index: 50;
-  right: -37.5%;
+  right: -20%;
 }
 
 /* === To-Do List & Controls === */

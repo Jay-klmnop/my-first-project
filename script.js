@@ -20,20 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
             states: {
                 spinning: 'assets/lofi/cat_purple_oiia.gif',
                 sitting: 'assets/lofi/cat_purple_l.gif',
-                dancing: 'assets/lofi/cat_final.gif'
+                dancing: 'assets/lofi/cat_final_crop.gif'
             }
         },
         background: { name: 'Background', path: 'assets/lofi/background.png' },
         window: { name: 'Sunset Window', path: 'assets/lofi/window_half.png' },
         curtain: { name: 'Curtain', path: 'assets/lofi/curtain.gif' },
-        computer: { name: 'Computer', path: 'assets/lofi/com_con.gif' },
-        books: { name: 'A Pile of Books', path: 'assets/lofi/books-1.png' },
-        coffee_mug: { name: 'Coffee Mug', path: 'assets/lofi/coffee_cup_2.gif' },
+        computer: { name: 'Computer', path: 'assets/lofi/com_con-3.png' },
+        coffee_mug: { name: 'Coffee Mug', path: 'assets/lofi/coffee_cup-3.gif' },
+        memo: { name: 'Sticky Notes', path: 'assets/lofi/memo.png' },
         mp3: { name: 'MP3 Player' },
     };
 
     let todos = [];
-    const rewardList = ['background', 'window', 'curtain', 'computer', 'books', 'coffee_mug', 'mp3'];
+    const rewardList = ['background', 'window', 'curtain', 'computer', 'coffee_mug', 'memo', 'mp3'];
     let rewardIndex = 0;
     let lastRewardCount = 0;
     let hideCompleted = false;

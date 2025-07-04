@@ -79,7 +79,7 @@ h1 {
   --window-width: 216px;
   --curtain-width: 216px;
   --computer-width: 140px;
-  --coffee_mug-width: 108px;
+  --coffee_mug-width: 40px;
   --memo-width: 72px;
   --cat-dancing-height: 128px;
 
@@ -92,7 +92,7 @@ h1 {
     --window-width: 288px;
     --curtain-width: 288px;
     --computer-width: 184px;
-    --coffee_mug-width: 124px;
+    --coffee_mug-width: 56px;
     --memo-width: 100px;
     --cat-dancing-height: 160px;
   }
@@ -143,8 +143,8 @@ h1 {
 
 #coffee_mug {
   width: var(--coffee_mug-width);
-  bottom: 20%;
-  right: -2%;
+  bottom: 33%;
+  right: 11%;
   z-index: 30;
 }
 

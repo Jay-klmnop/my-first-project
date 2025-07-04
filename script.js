@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window: { name: 'Sunset Window', path: 'assets/lofi/window_half.png' },
         curtain: { name: 'Curtain', path: 'assets/lofi/curtain.gif' },
         computer: { name: 'Computer', path: 'assets/lofi/com_con-3.png' },
-        coffee_mug: { name: 'Coffee Mug', path: 'assets/lofi/coffee_cup-3.gif' },
+        coffee_mug: { name: 'Coffee Mug', path: 'assets/lofi/coffee_cup-crop.gif' },
         memo: { name: 'Sticky Notes', path: 'assets/lofi/memo.png' },
         mp3: { name: 'MP3 Player' },
     };
